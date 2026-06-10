@@ -1,0 +1,135 @@
+.card-scene {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto 24px;
+  perspective: 1200px;
+  cursor: pointer;
+}
+
+.card-body {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.card-body.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  width: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-front {
+  background: linear-gradient(145deg, #111133 0%, #1a1a4a 100%);
+  border: 1px solid rgba(123, 63, 228, 0.3);
+}
+
+.card-back {
+  background: linear-gradient(145deg, #2a0a2a 0%, #3a0a3a 100%);
+  border: 1px solid rgba(214, 63, 191, 0.3);
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotateY(180deg);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.card-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 2px;
+  color: #7b3fe4;
+}
+
+.answer-label {
+  color: #d63fbf;
+}
+
+.card-number {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.card-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-row {
+  display: grid;
+  grid-template-columns: 10px 160px 1fr;
+  align-items: start;
+  gap: 10px;
+  min-height: 28px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.row-category {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.45);
+  padding-top: 3px;
+  line-height: 1.3;
+}
+
+.row-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.answer-text {
+  font-weight: 700;
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.card-flip-hint {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.2);
+  text-align: right;
+  padding-top: 6px;
+}
+
+@media (max-width: 600px) {
+  .card-row {
+    grid-template-columns: 10px 120px 1fr;
+    gap: 8px;
+  }
+
+  .card-face {
+    padding: 16px;
+  }
+}
