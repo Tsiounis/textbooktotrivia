@@ -4,8 +4,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.m
 
 export async function extractTextFromPDF(file) {
   const arrayBuffer = await file.arrayBuffer();
-  const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
-  const pdf = await loadingTask.promise;
+  const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
 
   const maxPages = Math.min(pdf.numPages, 40);
   let fullText = '';
