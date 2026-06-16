@@ -14,13 +14,14 @@ Categories (use exactly these 6 for every card, in this order):
 6. yellow  — Cause & Effect
 
 Rules:
-- Questions must come ONLY from the provided text.
-- Each question must be one tight sentence. No restating the category in the question.
-- Each answer must be under 15 words. Precise and unambiguous.
+- Questions must come ONLY from the main subject matter of the text. Completely ignore any author biography, preface, acknowledgements, introduction, or personal anecdotes.
+- Only generate questions with factually verifiable, unambiguous answers. Do not ask about opinions, interpretations, or speculative claims.
+- Each question must be one tight, grammatically complete sentence.
+- Each answer must be under 12 words. Precise and unambiguous.
 - Vary difficulty across cards (cards 1-3 easier, 7-10 harder).
 - Do NOT use quotation marks around answers.
 
-Return ONLY a JSON array with this exact structure, no markdown, no preamble:
+Return ONLY a JSON array, no markdown, no preamble:
 [
   {
     "card": 1,
@@ -48,7 +49,7 @@ ${text}`;
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-5',
-      max_tokens: 4000,
+      max_tokens: 6000,
       messages: [{ role: 'user', content: prompt }]
     })
   });
