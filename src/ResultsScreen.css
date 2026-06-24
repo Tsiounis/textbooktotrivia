@@ -1,0 +1,224 @@
+.results-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  min-height: 100vh;
+  padding: 32px 24px 48px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.results-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 6vw, 52px);
+  letter-spacing: 3px;
+  background: linear-gradient(135deg, #7b3fe4 0%, #d63fbf 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.score-display {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.score-big {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 96px;
+  line-height: 1;
+  color: #ffffff;
+  letter-spacing: 2px;
+}
+
+.score-total {
+  font-size: 48px;
+  color: rgba(255,255,255,0.4);
+}
+
+.score-percent {
+  font-size: 24px;
+  font-weight: 700;
+  color: #7b3fe4;
+}
+
+.score-label {
+  font-size: 16px;
+  color: rgba(255,255,255,0.5);
+}
+
+.name-entry {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.name-label {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+}
+
+.name-input {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 15px;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+
+.name-input:focus {
+  border-color: rgba(123, 63, 228, 0.7);
+}
+
+.submit-score-btn {
+  background: linear-gradient(135deg, #7b3fe4, #d63fbf);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 32px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.submit-score-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.score-saved {
+  font-size: 14px;
+  color: #3fcf6e;
+  font-weight: 700;
+}
+
+.share-btn {
+  background: transparent;
+  border: 1px solid #7b3fe4;
+  border-radius: 8px;
+  padding: 12px 32px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #7b3fe4;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  max-width: 320px;
+}
+
+.share-btn:hover {
+  background: rgba(123, 63, 228, 0.1);
+}
+
+.leaderboard {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+
+.leaderboard-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 16px;
+}
+
+.board-loading, .board-empty {
+  font-size: 13px;
+  color: rgba(255,255,255,0.3);
+  text-align: center;
+  padding: 12px 0;
+}
+
+.board-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.board-row {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.board-row:last-child {
+  border-bottom: none;
+}
+
+.board-rank {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.3);
+  text-align: center;
+}
+
+.board-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.board-score {
+  font-size: 14px;
+  font-weight: 700;
+  color: #7b3fe4;
+}
+
+.results-actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.replay-btn, .new-game-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.replay-btn {
+  background: rgba(123, 63, 228, 0.2);
+  border: 1px solid #7b3fe4;
+  color: #ffffff;
+}
+
+.replay-btn:hover {
+  background: rgba(123, 63, 228, 0.4);
+}
+
+.new-game-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.5);
+}
+
+.new-game-btn:hover {
+  border-color: rgba(255,255,255,0.4);
+  color: #ffffff;
+}

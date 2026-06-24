@@ -37,7 +37,7 @@ Return ONLY a JSON array, no markdown, no preamble:
 ]
 
 Textbook excerpt:
-${text}`;
+${text.slice(0, 12000)}`;
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -56,6 +56,7 @@ ${text}`;
 
   const data = await response.json();
   const raw = data.content?.[0]?.text || '';
+  console.log('Claude raw response:', raw.slice(0, 500));
   const clean = raw.replace(/```json|```/g, '').trim();
   const cards = JSON.parse(clean);
 
@@ -63,3 +64,25 @@ ${text}`;
 }
 
 export { CATEGORY_COLORS };
+
+export async function detectSubject(text) {
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': process.env.REACT_APP_ANTHROPIC_API_KEY,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-5',
+      max_tokens: 20,
+      messages: [{
+        role: 'user',
+        content: `What is the academic subject of this text? Reply with 1-3 words only, no punctuation. Examples: Biology, Organic Chemistry, Microeconomics, World History.\n\nText:\n${text.slice(0, 3000)}`
+      }]
+    })
+  });
+  const data = await response.json();
+  return data.content?.[0]?.text?.trim() || 'Academic';
+}

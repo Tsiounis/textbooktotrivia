@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import UploadScreen from './UploadScreen';
 import LoadingScreen from './LoadingScreen';
-import GameScreen from './GameScreen';
+import QuizScreen from './QuizScreen';
+import ResultsScreen from './ResultsScreen';
 import { extractTextFromPDF } from './pdfExtractor';
-import { generateTrivia } from './claudeApi';
+import { generateTrivia, detectSubject } from './claudeApi';
+import { supabase } from './supabaseClient';
 
 const STATES = {
   UPLOAD: 'upload',
   LOADING: 'loading',
-  GAME: 'game',
+  QUIZ: 'quiz',
+  RESULTS: 'results',
   ERROR: 'error',
 };
 
@@ -26,6 +29,41 @@ export default function App() {
   const [subject, setSubject] = useState('');
   const [filename, setFilename] = useState('');
   const [error, setError] = useState('');
+  const [gameId, setGameId] = useState(null);
+  const [finalScore, setFinalScore] = useState(0);
+  const [finalTotal, setFinalTotal] = useState(0);
+
+  // Check for shared game link on load
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const sharedGameId = params.get('game');
+    if (sharedGameId) {
+      loadSharedGame(sharedGameId);
+    }
+  }, []);
+
+  async function loadSharedGame(id) {
+    setPhase(STATES.LOADING);
+    try {
+      const { data } = await supabase
+        .from('games')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (data) {
+        setCards(data.cards);
+        setSubject(data.subject);
+        setGameId(data.id);
+        setPhase(STATES.QUIZ);
+      } else {
+        throw new Error('Game not found.');
+      }
+    } catch (err) {
+      setError(err.message || 'Could not load shared game.');
+      setPhase(STATES.ERROR);
+    }
+  }
 
   async function handleFileSelect(file) {
     setFilename(file.name);
@@ -34,20 +72,41 @@ export default function App() {
     try {
       const text = await extractTextFromPDF(file);
       if (text.trim().length < 200) {
-        throw new Error('Not enough readable text. This might be a scanned PDF — try a text-based one.');
+        throw new Error('Not enough readable text. Try a text-based PDF.');
       }
 
-      const detectedSubject = guessSubject(file.name);
+      const detectedSubject = await detectSubject(text);
       setSubject(detectedSubject);
 
       const generatedCards = await generateTrivia(text, detectedSubject);
+
+      // Save game to Supabase
+      const { data, error: dbError } = await supabase
+        .from('games')
+        .insert({ subject: detectedSubject, cards: generatedCards })
+        .select()
+        .single();
+
+      if (dbError) throw dbError;
+
       setCards(generatedCards);
-      setPhase(STATES.GAME);
+      setGameId(data.id);
+      setPhase(STATES.QUIZ);
     } catch (err) {
       console.error(err);
       setError(err.message || 'Something went wrong. Try a different PDF.');
       setPhase(STATES.ERROR);
     }
+  }
+
+  function handleQuizComplete(score, total) {
+    setFinalScore(score);
+    setFinalTotal(total);
+    setPhase(STATES.RESULTS);
+  }
+
+  function handleReplay() {
+    setPhase(STATES.QUIZ);
   }
 
   function handleReset() {
@@ -56,11 +115,32 @@ export default function App() {
     setSubject('');
     setFilename('');
     setError('');
+    setGameId(null);
+    setFinalScore(0);
+    setFinalTotal(0);
+    window.history.pushState({}, '', '/');
   }
 
   if (phase === STATES.UPLOAD) return <UploadScreen onFileSelect={handleFileSelect} />;
   if (phase === STATES.LOADING) return <LoadingScreen filename={filename} />;
-  if (phase === STATES.GAME) return <GameScreen cards={cards} subject={subject} onReset={handleReset} />;
+  if (phase === STATES.QUIZ) return (
+    <QuizScreen
+      cards={cards}
+      subject={subject}
+      gameId={gameId}
+      onComplete={handleQuizComplete}
+    />
+  );
+  if (phase === STATES.RESULTS) return (
+    <ResultsScreen
+      score={finalScore}
+      total={finalTotal}
+      gameId={gameId}
+      subject={subject}
+      onReset={handleReset}
+      onReplay={handleReplay}
+    />
+  );
 
   return (
     <div style={{

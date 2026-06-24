@@ -1,0 +1,219 @@
+.quiz-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  min-height: 100vh;
+  padding: 32px 24px 48px;
+}
+
+.quiz-header {
+  width: 100%;
+  max-width: 680px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.quiz-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 6vw, 52px);
+  letter-spacing: 3px;
+  background: linear-gradient(135deg, #7b3fe4 0%, #d63fbf 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.quiz-score {
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.6);
+}
+
+.progress-bar {
+  width: 100%;
+  max-width: 680px;
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7b3fe4, #d63fbf);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.quiz-counter {
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.quiz-card {
+  width: 100%;
+  max-width: 680px;
+  perspective: 1200px;
+}
+
+.quiz-card-inner {
+  position: relative;
+  width: 100%;
+  min-height: 360px;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.quiz-card.flipped .quiz-card-inner {
+  transform: rotateY(180deg);
+}
+
+.quiz-card-front,
+.quiz-card-back {
+  position: absolute;
+  width: 100%;
+  min-height: 360px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.quiz-card-front {
+  background: linear-gradient(145deg, #111133 0%, #1a1a4a 100%);
+  border: 1px solid rgba(123, 63, 228, 0.3);
+}
+
+.quiz-card-back {
+  background: linear-gradient(145deg, #2a0a2a 0%, #3a0a3a 100%);
+  border: 1px solid rgba(214, 63, 191, 0.3);
+  transform: rotateY(180deg);
+}
+
+.quiz-category {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.4);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.quiz-question {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.quiz-input {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 15px;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.quiz-input:focus {
+  border-color: rgba(123, 63, 228, 0.7);
+}
+
+.quiz-input:disabled {
+  opacity: 0.5;
+}
+
+.quiz-submit {
+  background: linear-gradient(135deg, #7b3fe4, #d63fbf);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  align-self: flex-start;
+}
+
+.quiz-submit:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.result-badge {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  letter-spacing: 2px;
+}
+
+.result-badge.correct {
+  color: #3fcf6e;
+}
+
+.result-badge.incorrect {
+  color: #e03fbf;
+}
+
+.official-answer, .your-answer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.official-label, .your-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.4);
+}
+
+.official-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.your-text {
+  font-size: 15px;
+  color: rgba(255,255,255,0.6);
+}
+
+.quiz-next {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s;
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.quiz-next:hover {
+  border-color: #d63fbf;
+  color: #d63fbf;
+}
