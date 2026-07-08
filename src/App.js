@@ -15,17 +15,17 @@ const STATES = {
   ERROR: 'error',
 };
 
-function guessSubject(filename) {
-  const name = filename.toLowerCase().replace(/\.pdf$/, '');
-  const words = name.split(/[\s_\-]+/);
-  const stop = new Set(['the','a','an','of','and','for','to','in','on','by','with']);
-  const subject = words.find(w => !stop.has(w)) || words[0];
-  return subject.charAt(0).toUpperCase() + subject.slice(1);
+function selectQuestions(cards, count = 5) {
+  return cards.slice(0, count).map(card => {
+    const randomPair = card.pairs[Math.floor(Math.random() * card.pairs.length)];
+    return { cardNumber: card.card, ...randomPair };
+  });
 }
 
 export default function App() {
   const [phase, setPhase] = useState(STATES.UPLOAD);
   const [cards, setCards] = useState(null);
+  const [questions, setQuestions] = useState(null);
   const [subject, setSubject] = useState('');
   const [filename, setFilename] = useState('');
   const [error, setError] = useState('');
@@ -33,7 +33,6 @@ export default function App() {
   const [finalScore, setFinalScore] = useState(0);
   const [finalTotal, setFinalTotal] = useState(0);
 
-  // Check for shared game link on load
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const sharedGameId = params.get('game');
@@ -55,6 +54,7 @@ export default function App() {
         setCards(data.cards);
         setSubject(data.subject);
         setGameId(data.id);
+        setQuestions(data.questions);
         setPhase(STATES.QUIZ);
       } else {
         throw new Error('Game not found.');
@@ -65,7 +65,7 @@ export default function App() {
     }
   }
 
-  async function handleFileSelect(file) {
+  async function handleFileSelect(file, questionCount = 5) {
     setFilename(file.name);
     setPhase(STATES.LOADING);
 
@@ -79,17 +79,18 @@ export default function App() {
       setSubject(detectedSubject);
 
       const generatedCards = await generateTrivia(text, detectedSubject);
+      const selectedQuestions = selectQuestions(generatedCards, questionCount);
 
-      // Save game to Supabase
       const { data, error: dbError } = await supabase
         .from('games')
-        .insert({ subject: detectedSubject, cards: generatedCards })
+        .insert({ subject: detectedSubject, cards: generatedCards, questions: selectedQuestions })
         .select()
         .single();
 
       if (dbError) throw dbError;
 
       setCards(generatedCards);
+      setQuestions(selectedQuestions);
       setGameId(data.id);
       setPhase(STATES.QUIZ);
     } catch (err) {
@@ -112,6 +113,7 @@ export default function App() {
   function handleReset() {
     setPhase(STATES.UPLOAD);
     setCards(null);
+    setQuestions(null);
     setSubject('');
     setFilename('');
     setError('');
@@ -126,6 +128,7 @@ export default function App() {
   if (phase === STATES.QUIZ) return (
     <QuizScreen
       cards={cards}
+      questions={questions}
       subject={subject}
       gameId={gameId}
       onComplete={handleQuizComplete}

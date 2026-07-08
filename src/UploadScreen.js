@@ -1,18 +1,19 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import './UploadScreen.css';
 
 export default function UploadScreen({ onFileSelect }) {
   const inputRef = useRef();
+  const [questionCount, setQuestionCount] = useState(5);
 
   function handleDrop(e) {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
-    if (file?.type === 'application/pdf') onFileSelect(file);
+    if (file?.type === 'application/pdf') onFileSelect(file, questionCount);
   }
 
   function handleChange(e) {
     const file = e.target.files[0];
-    if (file) onFileSelect(file);
+    if (file) onFileSelect(file, questionCount);
   }
 
   return (
@@ -37,6 +38,21 @@ export default function UploadScreen({ onFileSelect }) {
           accept="application/pdf"
           onChange={handleChange}
         />
+      </div>
+
+      <div className="question-count-selector">
+        <p className="count-label">Number of questions</p>
+        <div className="count-options">
+          {[3, 5, 10].map(n => (
+            <button
+              key={n}
+              className={`count-btn ${questionCount === n ? 'active' : ''}`}
+              onClick={() => setQuestionCount(n)}
+            >
+              {n}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="category-dots">

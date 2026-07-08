@@ -10,7 +10,7 @@ const DOT_COLORS = {
   yellow:  '#f5c842',
 };
 
-export default function QuizScreen({ cards, subject, gameId, onComplete }) {
+export default function QuizScreen({ cards, questions: preselectedQuestions, subject, gameId, onComplete }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answer, setAnswer] = useState('');
   const [judging, setJudging] = useState(false);
@@ -18,10 +18,15 @@ export default function QuizScreen({ cards, subject, gameId, onComplete }) {
   const [score, setScore] = useState(0);
   const [flipped, setFlipped] = useState(false);
 
-  const questions = useMemo(() => cards.map(card => {
-    const randomPair = card.pairs[Math.floor(Math.random() * card.pairs.length)];
-    return { cardNumber: card.card, ...randomPair };
-  }), [cards]);
+  const questions = useMemo(() => {
+    if (preselectedQuestions && preselectedQuestions.length > 0) {
+      return preselectedQuestions;
+    }
+    return cards.map(card => {
+      const randomPair = card.pairs[Math.floor(Math.random() * card.pairs.length)];
+      return { cardNumber: card.card, ...randomPair };
+    });
+  }, [cards, preselectedQuestions]);
 
   const current = questions[currentIndex];
   const isLast = currentIndex === questions.length - 1;
@@ -40,13 +45,14 @@ export default function QuizScreen({ cards, subject, gameId, onComplete }) {
           'anthropic-dangerous-direct-browser-access': 'true',
         },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-5',
+          model: 'claude-sonnet-4-6',
           max_tokens: 100,
           messages: [{
             role: 'user',
-            content: `You are a trivia judge. The official answer is: "${current.answer}". The student answered: "${answer}". 
-              
-Is the student's answer correct or close enough to be accepted? Consider synonyms, partial answers, and reasonable paraphrasing as correct.
+            content: `You are a strict but fair trivia judge. The official answer is: "${current.answer}". The student answered: "${answer}".
+
+Accept if: the core concept is correct, even if incomplete. Accept synonyms, paraphrasing, or answers that name the key thing without the surrounding words.
+Reject if: the answer is factually wrong, names the wrong thing entirely, or is too vague to demonstrate understanding.
 
 Reply with ONLY a JSON object: {"correct": true} or {"correct": false}`
           }]

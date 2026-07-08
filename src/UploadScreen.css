@@ -85,3 +85,46 @@
   max-width: 360px;
   line-height: 1.6;
 }
+
+.question-count-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.count-label {
+  color: rgba(255,255,255,0.5);
+  font-size: 14px;
+  margin: 0;
+}
+
+.count-options {
+  display: flex;
+  gap: 12px;
+}
+
+.count-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid rgba(123,63,228,0.4);
+  background: rgba(123,63,228,0.1);
+  color: rgba(255,255,255,0.6);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.count-btn.active {
+  border-color: #7b3fe4;
+  background: rgba(123,63,228,0.3);
+  color: #fff;
+}
+
+.count-btn:hover {
+  border-color: #7b3fe4;
+  color: #fff;
+}
