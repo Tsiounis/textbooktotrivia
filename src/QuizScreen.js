@@ -10,7 +10,7 @@ const DOT_COLORS = {
   yellow:  '#f5c842',
 };
 
-export default function QuizScreen({ cards, questions: preselectedQuestions, subject, gameId, onComplete }) {
+export default function QuizScreen({ cards, questions: preselectedQuestions, subject, gameId, onComplete, onOpenStudy }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answer, setAnswer] = useState('');
   const [judging, setJudging] = useState(false);
@@ -102,6 +102,18 @@ Reply with ONLY a JSON object: {"correct": true} or {"correct": false}`
     <div className="quiz-screen">
       <div className="quiz-header">
         <h1 className="quiz-title">{subject} Pursuit</h1>
+        {onOpenStudy && (
+          <button
+            onClick={onOpenStudy}
+            style={{
+              background: 'rgba(123,63,228,0.15)', border: '1px solid rgba(123,63,228,0.5)',
+              color: '#fff', borderRadius: 6, padding: '5px 14px', fontSize: 12,
+              fontWeight: 600, cursor: 'pointer', marginRight: 12
+            }}
+          >
+            Study
+          </button>
+        )}
         <span className="quiz-score">Score: {score}/{currentIndex + (result ? 1 : 0)}</span>
       </div>
 

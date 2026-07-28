@@ -66,6 +66,98 @@ ${text.slice(0, 12000)}`;
 
 export { CATEGORY_COLORS };
 
+export async function regenerateAnswer(question, subject, category) {
+  const prompt = `You are a trivia card game designer for a game about "${subject}". A player edited one of the questions in the "${category}" category. Write a new, correct, unambiguous answer for it.
+
+Rules:
+- Answer must be under 12 words, factually correct, precise.
+- Do NOT use quotation marks around the answer.
+- Reply with ONLY the answer text, nothing else — no preamble, no labels.
+
+Question: "${question}"`;
+
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': process.env.REACT_APP_ANTHROPIC_API_KEY,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-5',
+      max_tokens: 60,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+
+  const data = await response.json();
+  const raw = data.content?.[0]?.text || '';
+  return raw.trim().replace(/^["']|["']$/g, '');
+}
+
+export async function generateFocusedCards(text, subject, focusDescription, startingCardNumber = 1, count = 3) {
+  const prompt = `You are a trivia card game designer. Given the excerpt below, generate exactly ${count} trivia cards focused SPECIFICALLY on this section/topic: "${focusDescription}". Ignore parts of the excerpt unrelated to that focus.
+
+Subject: "${subject}"
+
+Categories (use exactly these 6 for every card, in this order):
+1. orange  — Key Terms & Definitions
+2. green   — Core Concepts
+3. blue    — Processes & Mechanisms
+4. magenta — Real-World Applications
+5. purple  — Compare & Contrast
+6. yellow  — Cause & Effect
+
+Rules:
+- Questions must be answerable strictly from the focus section described above.
+- Only generate questions with factually verifiable, unambiguous answers.
+- Each question must be one tight, grammatically complete sentence.
+- Each answer must be under 12 words. Precise and unambiguous.
+- NEVER ask questions about the book's structure, chapters, sections, or organization.
+- Do NOT use quotation marks around answers.
+
+Return ONLY a JSON array, no markdown, no preamble:
+[
+  {
+    "card": ${startingCardNumber},
+    "pairs": [
+      { "category": "orange", "question": "...", "answer": "..." },
+      { "category": "green",  "question": "...", "answer": "..." },
+      { "category": "blue",   "question": "...", "answer": "..." },
+      { "category": "magenta","question": "...", "answer": "..." },
+      { "category": "purple", "question": "...", "answer": "..." },
+      { "category": "yellow", "question": "...", "answer": "..." }
+    ]
+  }
+]
+
+Excerpt:
+${text.slice(0, 12000)}`;
+
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': process.env.REACT_APP_ANTHROPIC_API_KEY,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-5',
+      max_tokens: 3000,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+
+  const data = await response.json();
+  const raw = data.content?.[0]?.text || '';
+  const clean = raw.replace(/```json|```/g, '').trim();
+  const newCards = JSON.parse(clean);
+
+  return newCards.map((c, i) => ({ ...c, card: startingCardNumber + i }));
+}
+
 export async function detectSubject(text) {
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',

@@ -3,6 +3,7 @@ import UploadScreen from './UploadScreen';
 import LoadingScreen from './LoadingScreen';
 import QuizScreen from './QuizScreen';
 import ResultsScreen from './ResultsScreen';
+import StudyMode from './StudyMode';
 import { extractTextFromPDF } from './pdfExtractor';
 import { generateTrivia, detectSubject } from './claudeApi';
 import { supabase } from './supabaseClient';
@@ -11,6 +12,7 @@ const STATES = {
   UPLOAD: 'upload',
   LOADING: 'loading',
   QUIZ: 'quiz',
+  STUDY: 'study',
   RESULTS: 'results',
   ERROR: 'error',
 };
@@ -32,6 +34,7 @@ export default function App() {
   const [gameId, setGameId] = useState(null);
   const [finalScore, setFinalScore] = useState(0);
   const [finalTotal, setFinalTotal] = useState(0);
+  const [sourceText, setSourceText] = useState(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -75,6 +78,7 @@ export default function App() {
         throw new Error('Not enough readable text. Try a text-based PDF.');
       }
 
+      setSourceText(text);
       const detectedSubject = await detectSubject(text);
       setSubject(detectedSubject);
 
@@ -110,6 +114,17 @@ export default function App() {
     setPhase(STATES.QUIZ);
   }
 
+  function handleOpenStudy() {
+    setPhase(STATES.STUDY);
+  }
+
+  function handleCardsChange(updatedCards) {
+    // MVP note: this updates local session state only. Persisting edited/focus-generated
+    // cards back to Supabase (so shared links reflect them) is a deliberate next decision,
+    // not an oversight — see handoff notes on schema approach.
+    setCards(updatedCards);
+  }
+
   function handleReset() {
     setPhase(STATES.UPLOAD);
     setCards(null);
@@ -132,6 +147,16 @@ export default function App() {
       subject={subject}
       gameId={gameId}
       onComplete={handleQuizComplete}
+      onOpenStudy={handleOpenStudy}
+    />
+  );
+  if (phase === STATES.STUDY) return (
+    <StudyMode
+      cards={cards}
+      subject={subject}
+      sourceText={sourceText}
+      onCardsChange={handleCardsChange}
+      onSwitchToQuiz={() => setPhase(STATES.QUIZ)}
     />
   );
   if (phase === STATES.RESULTS) return (

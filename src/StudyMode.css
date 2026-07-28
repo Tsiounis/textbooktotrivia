@@ -1,0 +1,282 @@
+.study-screen {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+}
+
+.study-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.study-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  letter-spacing: 2px;
+  color: #7b3fe4;
+  margin: 0;
+}
+
+.study-mode-toggle {
+  display: flex;
+  gap: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.study-mode-toggle button {
+  padding: 6px 16px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.4);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.study-mode-toggle button.active {
+  background: #7b3fe4;
+  color: #fff;
+}
+
+.focus-bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+}
+
+.focus-bar input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 13px;
+}
+
+.focus-bar input::placeholder {
+  color: rgba(255,255,255,0.3);
+}
+
+.focus-bar button {
+  background: #7b3fe4;
+  color: #fff;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.focus-bar button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.focus-note {
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  margin: -12px 0 20px;
+}
+
+.study-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.study-tile {
+  background: linear-gradient(145deg, #111133 0%, #1a1a4a 100%);
+  border: 1px solid rgba(123, 63, 228, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  position: relative;
+  cursor: pointer;
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+}
+
+.study-tile.is-answer {
+  background: linear-gradient(145deg, #2a0a2a 0%, #3a0a3a 100%);
+  border: 1px solid rgba(214, 63, 191, 0.3);
+}
+
+.study-tile.is-editing {
+  border: 2px solid #7b3fe4;
+  cursor: default;
+}
+
+.tile-editing-badge {
+  position: absolute;
+  top: -9px;
+  left: 10px;
+  background: #7b3fe4;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tile-edit-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.3);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 2px;
+  line-height: 1;
+}
+
+.tile-edit-btn:hover {
+  color: rgba(255,255,255,0.7);
+}
+
+.tile-category {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.tile-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tile-category-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.45);
+}
+
+.tile-text {
+  font-size: 12px;
+  color: #fff;
+  line-height: 1.4;
+  margin: 0 0 10px;
+  flex: 1;
+}
+
+.tile-text.is-answer-text {
+  font-weight: 700;
+}
+
+.tile-hint {
+  font-size: 10px;
+  color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.tile-edit-textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 12px;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+  resize: none;
+  font-family: inherit;
+}
+
+.tile-edit-answer-preview {
+  background: rgba(255,255,255,0.03);
+  border: 1px dashed rgba(255,255,255,0.15);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 8px;
+}
+
+.tile-edit-answer-preview.is-stale {
+  color: rgba(255,255,255,0.3);
+}
+
+.tile-edit-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.tile-edit-actions button {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.tile-regenerate-btn {
+  background: #7b3fe4;
+  color: #fff;
+}
+
+.tile-regenerate-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.tile-save-btn {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.6);
+}
+
+.tile-cancel-btn {
+  background: transparent;
+  color: rgba(255,255,255,0.35);
+}
+
+.study-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.study-pagination button {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #fff;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.study-pagination button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.study-pagination-count {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
