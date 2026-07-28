@@ -19,6 +19,7 @@ Rules:
 - Each question must be one tight, grammatically complete sentence.
 - Each answer must be under 12 words. Precise and unambiguous.
 - Vary difficulty across cards (cards 1-3 easier, 7-10 harder).
+  - NEVER ask questions about the book's structure, chapters, sections, or organization. Do not ask "what chapter covers X" or "which section discusses Y". Ask only about the subject matter itself.
 - Do NOT use quotation marks around answers.
 
 Return ONLY a JSON array, no markdown, no preamble:
