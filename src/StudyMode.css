@@ -203,6 +203,15 @@
   font-family: inherit;
 }
 
+.tile-edit-answer-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 4px;
+  display: block;
+}
+
 .tile-edit-answer-preview {
   background: rgba(255,255,255,0.03);
   border: 1px dashed rgba(255,255,255,0.15);

@@ -25,6 +25,30 @@
   background-clip: text;
 }
 
+.quiz-mode-toggle {
+  display: flex;
+  gap: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.quiz-mode-toggle button {
+  padding: 6px 16px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.4);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.quiz-mode-toggle button.active {
+  background: #7b3fe4;
+  color: #fff;
+}
+
 .quiz-score {
   font-size: 14px;
   font-weight: 700;

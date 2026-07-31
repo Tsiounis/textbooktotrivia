@@ -173,16 +173,20 @@ export default function StudyMode({ cards, subject, sourceText, onCardsChange, o
                   value={editQuestion}
                   onChange={e => handleQuestionEdit(e.target.value)}
                 />
-                <div className={`tile-edit-answer-preview ${answerStale ? 'is-stale' : ''}`}>
-                  Answer: {editAnswer}{answerStale ? ' (may be stale after edit)' : ''}
-                </div>
+                <label className="tile-edit-answer-label">Answer{answerStale ? ' (may be stale after edit)' : ''}</label>
+                <textarea
+                  className="tile-edit-textarea"
+                  rows={2}
+                  value={editAnswer}
+                  onChange={e => { setEditAnswer(e.target.value); setAnswerStale(false); }}
+                />
                 <div className="tile-edit-actions">
                   <button
                     className="tile-regenerate-btn"
                     onClick={() => handleRegenerate(tile)}
                     disabled={regenerating || !editQuestion.trim()}
                   >
-                    {regenerating ? 'Thinking\u2026' : 'Regenerate answer'}
+                    {regenerating ? 'Thinking\u2026' : 'Regenerate with AI'}
                   </button>
                   <button className="tile-save-btn" onClick={() => handleSave(tile)}>Save</button>
                   <button className="tile-cancel-btn" onClick={handleCancel}>Cancel</button>

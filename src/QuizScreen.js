@@ -103,16 +103,10 @@ Reply with ONLY a JSON object: {"correct": true} or {"correct": false}`
       <div className="quiz-header">
         <h1 className="quiz-title">{subject} Pursuit</h1>
         {onOpenStudy && (
-          <button
-            onClick={onOpenStudy}
-            style={{
-              background: 'rgba(123,63,228,0.15)', border: '1px solid rgba(123,63,228,0.5)',
-              color: '#fff', borderRadius: 6, padding: '5px 14px', fontSize: 12,
-              fontWeight: 600, cursor: 'pointer', marginRight: 12
-            }}
-          >
-            Study
-          </button>
+          <div className="quiz-mode-toggle" style={{ marginRight: 12 }}>
+            <button onClick={onOpenStudy}>Study</button>
+            <button className="active">Quiz</button>
+          </div>
         )}
         <span className="quiz-score">Score: {score}/{currentIndex + (result ? 1 : 0)}</span>
       </div>
