@@ -49,10 +49,12 @@ export default function QuizScreen({ cards, questions: preselectedQuestions, sub
           max_tokens: 100,
           messages: [{
             role: 'user',
-            content: `You are a strict but fair trivia judge. The official answer is: "${current.answer}". The student answered: "${answer}".
+            content: `You are a strict but fair trivia judge. The question was: "${current.question}". The official answer is: "${current.answer}". The student answered: "${answer}".
 
 Accept if: the core concept is correct, even if incomplete. Accept synonyms, paraphrasing, or answers that name the key thing without the surrounding words.
 Reject if: the answer is factually wrong, names the wrong thing entirely, or is too vague to demonstrate understanding.
+
+Example: if the official answer is "Human nature", a student answer of "Human" should be ACCEPTED — it names the key concept, just without the qualifying word.
 
 Reply with ONLY a JSON object: {"correct": true} or {"correct": false}`
           }]
@@ -141,6 +143,10 @@ Reply with ONLY a JSON object: {"correct": true} or {"correct": false}`
           <div className="quiz-card-back">
             <div className={`result-badge ${result?.correct ? 'correct' : 'incorrect'}`}>
               {result?.correct ? '✓ Correct!' : '✗ Not quite'}
+            </div>
+            <div className="result-question">
+              <p className="official-label">Question:</p>
+              <p className="result-question-text">{current.question}</p>
             </div>
             <div className="official-answer">
               <p className="official-label">Official answer:</p>
