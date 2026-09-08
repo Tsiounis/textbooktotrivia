@@ -43,7 +43,10 @@ export default function ResultsScreen({ score, total, gameId, subject, onReset, 
   function handleShare() {
     const text = `I scored ${score}/${total} on ${subject} Pursuit! Can you beat me? ${shareUrl}`;
     if (navigator.share) {
-      navigator.share({ title: `${subject} Pursuit`, text, url: shareUrl });
+      // Only pass `text` (which already ends with the link). Passing the
+      // same URL again in a separate `url` field caused iOS Messages to
+      // insert two separate link-preview cards for one message.
+      navigator.share({ title: `${subject} Pursuit`, text });
     } else {
       navigator.clipboard.writeText(text);
       alert('Challenge link copied to clipboard!');
