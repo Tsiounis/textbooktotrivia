@@ -121,7 +121,7 @@ export default function ResultsScreen({ score, total, gameId, subject, onReset, 
       </a>
 
       <div className="results-actions">
-        <button className="replay-btn" onClick={onReplay}>Play Again</button>
+        <button className="replay-btn" onClick={onReplay}>Same Questions</button>
         <button className="new-game-btn" onClick={onReset}>New Game</button>
       </div>
     </div>
