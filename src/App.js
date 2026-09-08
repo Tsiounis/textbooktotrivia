@@ -129,6 +129,18 @@ export default function App() {
     setPhase(STATES.QUIZ);
   }
 
+  function handleNewGame() {
+    // "New Game" means a fresh random draw from the material already loaded
+    // (whether that came from an upload or a shared link like Nick's), not
+    // a full reset back to the PDF upload screen -- there's no PDF to give
+    // it back in a shared-link session, so that used to be a dead end.
+    const freshQuestions = selectQuestions(cards, questions.length);
+    setQuestions(freshQuestions);
+    setFinalScore(0);
+    setFinalTotal(0);
+    setPhase(STATES.QUIZ);
+  }
+
   function handleReset() {
     setPhase(STATES.UPLOAD);
     setCards(null);
@@ -159,7 +171,7 @@ export default function App() {
       total={finalTotal}
       gameId={gameId}
       subject={subject}
-      onReset={handleReset}
+      onReset={handleNewGame}
       onReplay={handleReplay}
     />
   );
