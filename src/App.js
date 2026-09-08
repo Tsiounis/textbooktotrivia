@@ -15,6 +15,15 @@ const STATES = {
   ERROR: 'error',
 };
 
+function getOrCreateVisitorId() {
+  let id = localStorage.getItem('ttt_visitor_id');
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem('ttt_visitor_id', id);
+  }
+  return id;
+}
+
 function selectQuestions(cards, count = 5) {
   return cards.slice(0, count).map(card => {
     const randomPair = card.pairs[Math.floor(Math.random() * card.pairs.length)];
@@ -56,6 +65,16 @@ export default function App() {
         setGameId(data.id);
         setQuestions(data.questions);
         setPhase(STATES.QUIZ);
+
+        // Fire-and-forget: track that this shared link was opened, to measure
+        // organic reach (visits beyond the people we directly sent it to).
+        // Never blocks the game and never breaks it if this fails.
+        supabase
+          .from('link_visits')
+          .insert({ game_id: data.id, visitor_id: getOrCreateVisitorId() })
+          .then(({ error: visitError }) => {
+            if (visitError) console.warn('Visit tracking failed (non-blocking):', visitError);
+          });
       } else {
         throw new Error('Game not found.');
       }

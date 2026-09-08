@@ -124,6 +124,28 @@
   background: rgba(123, 63, 228, 0.1);
 }
 
+.survey-btn {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  background: #7b3fe4;
+  border: 1px solid #7b3fe4;
+  border-radius: 8px;
+  padding: 12px 32px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  max-width: 320px;
+  margin-top: 10px;
+}
+
+.survey-btn:hover {
+  background: #6a2fd4;
+}
+
 .leaderboard {
   width: 100%;
   background: rgba(255,255,255,0.03);

@@ -111,6 +111,15 @@ export default function ResultsScreen({ score, total, gameId, subject, onReset, 
         )}
       </div>
 
+      <a
+        className="survey-btn"
+        href="https://docs.google.com/forms/d/17o66S2-vmMB9Ho2WfUhNUAD-L0f3vfY89toRtIJNkaI/viewform"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Take our 3-min survey → enter to win a $50 gift card
+      </a>
+
       <div className="results-actions">
         <button className="replay-btn" onClick={onReplay}>Play Again</button>
         <button className="new-game-btn" onClick={onReset}>New Game</button>
