@@ -43,7 +43,10 @@ export default function ResultsScreen({ score, total, gameId, subject, onReset, 
   function handleShare() {
     const text = `I scored ${score}/${total} on ${subject} Pursuit! Can you beat me? ${shareUrl}`;
     if (navigator.share) {
-      navigator.share({ title: `${subject} Pursuit`, text, url: shareUrl });
+      // Only pass `text` (which already ends with the link). Passing the
+      // same URL again in a separate `url` field caused iOS Messages to
+      // insert two separate link-preview cards for one message.
+      navigator.share({ title: `${subject} Pursuit`, text });
     } else {
       navigator.clipboard.writeText(text);
       alert('Challenge link copied to clipboard!');
@@ -111,8 +114,17 @@ export default function ResultsScreen({ score, total, gameId, subject, onReset, 
         )}
       </div>
 
+      <a
+        className="survey-btn"
+        href="https://docs.google.com/forms/d/17o66S2-vmMB9Ho2WfUhNUAD-L0f3vfY89toRtIJNkaI/viewform"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Take our 3-min survey → enter to win a $50 gift card
+      </a>
+
       <div className="results-actions">
-        <button className="replay-btn" onClick={onReplay}>Play Again</button>
+        <button className="replay-btn" onClick={onReplay}>Same Questions</button>
         <button className="new-game-btn" onClick={onReset}>New Game</button>
       </div>
     </div>
