@@ -244,3 +244,18 @@
   border-color: rgba(255,255,255,0.4);
   color: #ffffff;
 }
+
+.start-over-link {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 14px;
+  padding: 4px;
+}
+
+.start-over-link:hover {
+  color: rgba(255,255,255,0.7);
+}

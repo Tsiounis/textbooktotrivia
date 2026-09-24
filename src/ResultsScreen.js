@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient';
 import './ResultsScreen.css';
 
-export default function ResultsScreen({ score, total, gameId, subject, onReset, onReplay }) {
+export default function ResultsScreen({ score, total, gameId, subject, onReset, onReplay, onStartOver }) {
   const [playerName, setPlayerName] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -127,6 +127,10 @@ export default function ResultsScreen({ score, total, gameId, subject, onReset, 
         <button className="replay-btn" onClick={onReplay}>Same Questions</button>
         <button className="new-game-btn" onClick={onReset}>New Game</button>
       </div>
+
+      <button className="start-over-link" onClick={onStartOver}>
+        Upload a different PDF
+      </button>
     </div>
   );
 }

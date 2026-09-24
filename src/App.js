@@ -173,6 +173,7 @@ export default function App() {
       subject={subject}
       onReset={handleNewGame}
       onReplay={handleReplay}
+      onStartOver={handleReset}
     />
   );
 
