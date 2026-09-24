@@ -20,6 +20,7 @@ Rules:
 - Each answer must be under 12 words. Precise and unambiguous.
 - Vary difficulty across cards (cards 1-3 easier, 7-10 harder).
   - NEVER ask questions about the book's structure, chapters, sections, or organization. Do not ask "what chapter covers X" or "which section discusses Y". Ask only about the subject matter itself.
+- Avoid asking a student to recall one specific person's exact named definition or coined phrase (e.g. "How does [Author] define [term]?"). That tests memorization of wording, not understanding. Instead, invert it: state the definition or description in the question, and ask what term or concept it identifies (e.g. "What term did [Author] define as ...?" with the term as the answer).
 - Do NOT use quotation marks around answers.
 
 Return ONLY a JSON array, no markdown, no preamble:
